@@ -1,5 +1,6 @@
 const mysql = require("mysql2/promise");
-const MySQLStore = require("express-mysql-session");
+const session = require("express-session");
+const MySQLStoreFactory = require("express-mysql-session");
 const { env } = require("./env");
 
 const pool = mysql.createPool({
@@ -14,22 +15,19 @@ const pool = mysql.createPool({
   timezone: "Z"
 });
 
-function buildSessionStore() {
-  const options = {
-    host: env.DB_HOST,
-    port: Number(env.DB_PORT),
-    user: env.DB_USER,
-    password: env.DB_PASS,
-    database: env.DB_NAME,
-    clearExpired: true,
-    checkExpirationInterval: 15 * 60 * 1000,
-    expiration: 7 * 24 * 60 * 60 * 1000,
-    createDatabaseTable: false
-  };
+function createSessionStore() {
+  const MySQLStore = MySQLStoreFactory(session);
 
-  return new (MySQLStore(session))(options);
-
-  function session() {}
+  // Usa tabla "sessions" que ya creamos en SQL (createDatabaseTable=false)
+  return new MySQLStore(
+    {
+      clearExpired: true,
+      checkExpirationInterval: 15 * 60 * 1000,
+      expiration: 7 * 24 * 60 * 60 * 1000,
+      createDatabaseTable: false
+    },
+    pool
+  );
 }
 
-module.exports = { pool, buildSessionStore };
+module.exports = { pool, createSessionStore };
