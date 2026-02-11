@@ -1,0 +1,24 @@
+{
+  "name": "tule-express-app",
+  "version": "1.0.0",
+  "description": "Tule Express - Reservas + Admin (Node/Express/MySQL/EJS)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "connect-flash": "^0.1.1",
+    "csurf": "^1.11.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-mysql-session": "^3.0.3",
+    "express-rate-limit": "^7.4.0",
+    "express-session": "^1.18.1",
+    "luxon": "^3.5.0",
+    "mysql2": "^3.11.3",
+    "nodemailer": "^6.9.15"
+  }
+}
