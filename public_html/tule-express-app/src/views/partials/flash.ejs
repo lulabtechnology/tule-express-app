@@ -1,0 +1,13 @@
+<div class="container mt-3">
+  <% (flash.success || []).forEach(function(m){ %>
+    <div class="alert alert-success"><%= m %></div>
+  <% }) %>
+
+  <% (flash.error || []).forEach(function(m){ %>
+    <div class="alert alert-danger"><%= m %></div>
+  <% }) %>
+
+  <% (flash.info || []).forEach(function(m){ %>
+    <div class="alert alert-info"><%= m %></div>
+  <% }) %>
+</div>
