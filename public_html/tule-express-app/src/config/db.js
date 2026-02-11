@@ -17,8 +17,6 @@ const pool = mysql.createPool({
 
 function createSessionStore() {
   const MySQLStore = MySQLStoreFactory(session);
-
-  // Usa tabla "sessions" que ya creamos en SQL (createDatabaseTable=false)
   return new MySQLStore(
     {
       clearExpired: true,
