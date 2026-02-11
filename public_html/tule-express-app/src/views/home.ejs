@@ -1,0 +1,60 @@
+<%- include('partials/head', { pageTitle }) %>
+<%- include('partials/navbar') %>
+<%- include('partials/flash') %>
+
+<section class="hero">
+  <div class="container py-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6">
+        <span class="badge text-bg-light border">Preparación que marca la diferencia</span>
+        <h1 class="display-6 fw-bold mt-3">Transporte con seguridad, confianza y corazón</h1>
+        <p class="lead text-muted mt-3">
+          En Tule Express priorizamos normas de tránsito, primeros auxilios, servicio al cliente y cuidado integral.
+        </p>
+        <div class="d-flex gap-2 mt-4">
+          <a href="/reservar" class="btn btn-primary btn-lg">Reservar ahora</a>
+          <a href="/servicios" class="btn btn-outline-dark btn-lg">Ver servicios</a>
+        </div>
+        <div class="trust mt-4">
+          <span class="trust-pill">✔ Seguridad</span>
+          <span class="trust-pill">✔ Atención premium</span>
+          <span class="trust-pill">✔ Enfoque humano</span>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card shadow-sm p-4">
+          <h2 class="h5 fw-semibold mb-2">Reserva real (sin depender de WhatsApp)</h2>
+          <p class="text-muted mb-0">
+            Aquí creas tu solicitud y recibes un código. Luego puedes escribir por WhatsApp para coordinar detalles,
+            pero el sistema mantiene el control.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container py-5">
+  <div class="row g-3">
+    <div class="col-md-4">
+      <div class="card p-4 h-100 shadow-sm">
+        <div class="fw-semibold">Cuidado y confianza</div>
+        <div class="text-muted mt-2">Protocolos y preparación para darte tranquilidad.</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-4 h-100 shadow-sm">
+        <div class="fw-semibold">Equipo con corazón</div>
+        <div class="text-muted mt-2">El corazón de Tule Express: nuestro equipo.</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-4 h-100 shadow-sm">
+        <div class="fw-semibold">Servicio al cliente</div>
+        <div class="text-muted mt-2">Comunicación clara y trato humano.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
