@@ -1,0 +1,33 @@
+<%- include('../partials/head', { pageTitle }) %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/flash') %>
+
+<section class="container py-5">
+  <div class="d-flex justify-content-between align-items-end flex-wrap gap-2">
+    <div>
+      <h1 class="h3 fw-bold mb-1">Panel Admin</h1>
+      <p class="text-muted mb-0">FASE 1: base estable sin 500.</p>
+    </div>
+    <a class="btn btn-outline-dark" href="/admin/reservas?status=PENDING">Ver pendientes</a>
+  </div>
+
+  <div class="row g-3 mt-3">
+    <div class="col-md-3"><div class="card p-4 shadow-sm"><div class="text-muted small">Pendientes</div><div class="h3 fw-bold mb-0"><%= stats.pending || 0 %></div></div></div>
+    <div class="col-md-3"><div class="card p-4 shadow-sm"><div class="text-muted small">Aceptadas</div><div class="h3 fw-bold mb-0"><%= stats.accepted || 0 %></div></div></div>
+    <div class="col-md-3"><div class="card p-4 shadow-sm"><div class="text-muted small">Rechazadas</div><div class="h3 fw-bold mb-0"><%= stats.rejected || 0 %></div></div></div>
+    <div class="col-md-3"><div class="card p-4 shadow-sm"><div class="text-muted small">Canceladas</div><div class="h3 fw-bold mb-0"><%= stats.cancelled || 0 %></div></div></div>
+  </div>
+
+  <div class="card p-4 shadow-sm mt-4">
+    <div class="fw-semibold">Próximas secciones (FASE 3)</div>
+    <div class="text-muted mt-1">Horarios semanales, bloqueos, aceptación/rechazo, export CSV, disponibilidad real.</div>
+    <div class="d-flex gap-2 flex-wrap mt-3">
+      <a class="btn btn-outline-secondary" href="/admin/horarios">Horarios</a>
+      <a class="btn btn-outline-secondary" href="/admin/bloqueos">Bloqueos</a>
+      <a class="btn btn-outline-secondary" href="/admin/servicios">Servicios</a>
+      <a class="btn btn-outline-secondary" href="/admin/ajustes">Ajustes</a>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
