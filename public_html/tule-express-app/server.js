@@ -4,7 +4,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 
 const { env } = require("./src/config/env");
-const { pool, buildSessionStore } = require("./src/config/db");
+const { pool, createSessionStore } = require("./src/config/db");
 const { attachCsrf, csrfErrorHandler } = require("./src/middlewares/csrf");
 const { attachAdminLocals } = require("./src/middlewares/auth");
 
@@ -14,7 +14,6 @@ const adminRoutes = require("./src/routes/admin.routes");
 
 const app = express();
 
-// Hostinger suele estar detrás de proxy/reverse proxy
 app.set("trust proxy", 1);
 app.disable("x-powered-by");
 
@@ -29,8 +28,14 @@ app.use(express.json());
 // Static
 app.use(express.static(path.join(__dirname, "public"), { maxAge: "1h" }));
 
-// Sessions (MySQL store)
-const sessionStore = buildSessionStore();
+// Sessions (prefer MySQL store; fallback para NO caer en 503)
+let sessionStore = null;
+try {
+  sessionStore = createSessionStore();
+  console.log("[session] Using MySQL session store");
+} catch (e) {
+  console.error("[session] MySQL session store failed, using MemoryStore:", e.message);
+}
 
 app.use(
   session({
@@ -38,7 +43,7 @@ app.use(
     secret: env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: sessionStore,
+    store: sessionStore || undefined,
     cookie: {
       httpOnly: true,
       sameSite: "lax",
@@ -51,7 +56,7 @@ app.use(
 app.use(flash());
 
 // Locals comunes
-app.use(async (req, res, next) => {
+app.use((req, res, next) => {
   res.locals.appUrl = env.APP_URL;
   res.locals.whatsappE164 = env.WHATSAPP_E164;
   res.locals.now = new Date();
@@ -63,11 +68,22 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Admin locals (para navbar)
+// Admin locals
 app.use(attachAdminLocals);
 
 // CSRF (después de session)
 app.use(attachCsrf);
+
+// ✅ Health ANTES del 404 (si no, nunca se alcanza)
+app.get("/health", async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT 1 AS ok");
+    res.json({ ok: true, db: rows?.[0]?.ok === 1 });
+  } catch (e) {
+    console.error("[health] DB error:", e.message);
+    res.json({ ok: true, db: false, error: e.message });
+  }
+});
 
 // Routes
 app.use("/", publicRoutes);
@@ -91,17 +107,6 @@ app.use((err, req, res, next) => {
     pageTitle: "Ocurrió un error",
     errorId: Date.now().toString()
   });
-});
-
-// Health check (no DB hard-fail, solo informa)
-app.get("/health", async (req, res) => {
-  try {
-    const [rows] = await pool.query("SELECT 1 AS ok");
-    res.json({ ok: true, db: rows?.[0]?.ok === 1 });
-  } catch (e) {
-    console.error("[health] DB error:", e.message);
-    res.json({ ok: true, db: false });
-  }
 });
 
 const port = Number(process.env.PORT || env.PORT || 3000);
