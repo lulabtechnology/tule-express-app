@@ -1,0 +1,40 @@
+<%- include('../partials/head', { pageTitle }) %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/flash') %>
+
+<section class="container py-5" style="max-width:520px">
+  <div class="card p-4 shadow-sm">
+    <h1 class="h4 fw-bold mb-2">Admin Login</h1>
+    <p class="text-muted">Acceso restringido.</p>
+
+    <% if (errors && errors.length) { %>
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          <% errors.forEach(function(e){ %><li><%= e %></li><% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+    <form method="POST" action="/admin/login">
+      <input type="hidden" name="_csrf" value="<%= _csrf %>">
+
+      <div class="mb-3">
+        <label class="form-label">Usuario o Email</label>
+        <input class="form-control" name="identifier" value="<%= (form && form.identifier) ? form.identifier : "" %>" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <input class="form-control" type="password" name="password" required>
+      </div>
+
+      <button class="btn btn-primary w-100">Entrar</button>
+
+      <div class="small text-muted mt-3">
+        Rate-limit activo para proteger el login.
+      </div>
+    </form>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
