@@ -1,0 +1,55 @@
+:root{
+  --ink:#0f172a;
+  --muted:#64748b;
+  --brand:#2563eb;
+  --brandDark:#1d4ed8;
+}
+
+body{
+  color: var(--ink);
+  background: #f8fafc;
+}
+
+.hero{
+  background: radial-gradient(900px 400px at 10% 10%, rgba(37,99,235,.14), transparent 60%),
+              radial-gradient(700px 350px at 90% 20%, rgba(2,132,199,.12), transparent 60%),
+              #ffffff;
+  border-bottom: 1px solid rgba(15,23,42,.08);
+}
+
+.navbar-brand{ letter-spacing: .2px; }
+
+.card{
+  border: 1px solid rgba(15,23,42,.08);
+  border-radius: 16px;
+}
+
+.btn-primary{
+  background: var(--brand);
+  border-color: var(--brand);
+}
+.btn-primary:hover{
+  background: var(--brandDark);
+  border-color: var(--brandDark);
+}
+
+.trust{
+  display:flex;
+  gap:.5rem;
+  flex-wrap:wrap;
+}
+.trust-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:.4rem;
+  padding:.35rem .6rem;
+  border-radius:999px;
+  border:1px solid rgba(15,23,42,.12);
+  background:#fff;
+  font-size:.9rem;
+  color: var(--muted);
+}
+
+.table td, .table th{
+  vertical-align: middle;
+}
