@@ -28,7 +28,7 @@ app.use(express.json());
 // Static
 app.use(express.static(path.join(__dirname, "public"), { maxAge: "1h" }));
 
-// Sessions (prefer MySQL store; fallback para NO caer en 503)
+// Sessions (MySQL store; fallback si falla para evitar 503)
 let sessionStore = null;
 try {
   sessionStore = createSessionStore();
@@ -52,14 +52,12 @@ app.use(
   })
 );
 
-// Flash
 app.use(flash());
 
-// Locals comunes
+// Locals
 app.use((req, res, next) => {
   res.locals.appUrl = env.APP_URL;
   res.locals.whatsappE164 = env.WHATSAPP_E164;
-  res.locals.now = new Date();
   res.locals.flash = {
     success: req.flash("success"),
     error: req.flash("error"),
@@ -68,19 +66,15 @@ app.use((req, res, next) => {
   next();
 });
 
-// Admin locals
 app.use(attachAdminLocals);
-
-// CSRF (después de session)
 app.use(attachCsrf);
 
-// ✅ Health ANTES del 404 (si no, nunca se alcanza)
+// Health check
 app.get("/health", async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT 1 AS ok");
     res.json({ ok: true, db: rows?.[0]?.ok === 1 });
   } catch (e) {
-    console.error("[health] DB error:", e.message);
     res.json({ ok: true, db: false, error: e.message });
   }
 });
@@ -92,12 +86,10 @@ app.use("/admin", adminRoutes);
 
 // 404
 app.use((req, res) => {
-  res.status(404).render("partials/404", {
-    pageTitle: "Página no encontrada"
-  });
+  res.status(404).render("partials/404", { pageTitle: "Página no encontrada" });
 });
 
-// CSRF error handler
+// CSRF handler
 app.use(csrfErrorHandler);
 
 // 500
@@ -110,6 +102,4 @@ app.use((err, req, res, next) => {
 });
 
 const port = Number(process.env.PORT || env.PORT || 3000);
-app.listen(port, () => {
-  console.log(`Tule Express app running on port ${port}`);
-});
+app.listen(port, () => console.log(`Tule Express app running on port ${port}`));
