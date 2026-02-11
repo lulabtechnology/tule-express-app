@@ -1,0 +1,32 @@
+<%- include('partials/head', { pageTitle }) %>
+<%- include('partials/navbar') %>
+<%- include('partials/flash') %>
+
+<section class="container py-5">
+  <div class="d-flex justify-content-between align-items-end gap-3 flex-wrap">
+    <div>
+      <h1 class="h3 fw-bold mb-1">Servicios</h1>
+      <p class="text-muted mb-0">Selecciona un servicio y crea tu solicitud de reserva.</p>
+    </div>
+    <a href="/reservar" class="btn btn-primary">Reservar</a>
+  </div>
+
+  <div class="row g-3 mt-3">
+    <% (services || []).forEach(function(s){ %>
+      <div class="col-md-6 col-lg-4">
+        <div class="card p-4 shadow-sm h-100">
+          <div class="d-flex justify-content-between align-items-start gap-2">
+            <div>
+              <div class="fw-semibold"><%= s.name %></div>
+              <div class="text-muted small"><%= s.duration_minutes %> min</div>
+            </div>
+            <span class="badge text-bg-light border">Disponible</span>
+          </div>
+          <p class="text-muted mt-3 mb-0"><%= s.description %></p>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
