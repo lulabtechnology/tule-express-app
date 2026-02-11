@@ -1,0 +1,51 @@
+<%- include('../partials/head', { pageTitle }) %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/flash') %>
+
+<section class="container py-5">
+  <div class="d-flex justify-content-between align-items-end flex-wrap gap-2">
+    <div>
+      <h1 class="h3 fw-bold mb-1">Reserva #<%= item.id %></h1>
+      <div class="text-muted">Estado: <strong><%= item.status %></strong></div>
+    </div>
+    <a class="btn btn-outline-dark" href="/admin/reservas?status=<%= item.status %>">Volver</a>
+  </div>
+
+  <div class="card p-4 shadow-sm mt-3">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="text-muted small">Código</div>
+        <div class="h5 fw-bold"><%= item.code %></div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="text-muted small">Fecha inicio (UTC)</div>
+        <div class="h5 fw-semibold"><%= item.requested_start_utc %></div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="text-muted small">Cliente</div>
+        <div class="fw-semibold"><%= item.customer_name %></div>
+        <div class="text-muted"><%= item.customer_email %></div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="text-muted small">Teléfono</div>
+        <div class="fw-semibold"><%= item.customer_phone %></div>
+        <div class="text-muted">Personas: <%= item.people_count %></div>
+      </div>
+
+      <div class="col-12">
+        <div class="text-muted small">Notas</div>
+        <div class="fw-semibold"><%= item.notes %></div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="text-muted small">
+      FASE 3: aquí va aceptar/rechazar/cancelar + historial + bloqueo por slot.
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
